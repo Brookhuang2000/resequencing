@@ -3,7 +3,7 @@
 import pandas as pd
 
 # Read file
-df = pd.read_csv('output.vcf', delimiter='\t', skiprows=2692)
+df = pd.read_csv('DP3miss0.2.recode.vcf', delimiter='\t', skiprows=2692)
 
 # Extract the required columns.
 columns_to_extract = ['#CHROM', 'POS', 'ID', 'REF', 'QUAL', 'FILTER', 'INFO', 'FORMAT']
@@ -44,7 +44,7 @@ columns_to_extract += alt_columns + byb_columns + meh_columns + oul_columns + ss
 extracted_data = df[columns_to_extract]
 
 # Write the extracted data into a new file.
-extracted_data.to_csv('3result.vcf', sep='\t', index=False)
+extracted_data.to_csv('/mnt/huangchang/huangchang/04_sheep/01_horned_polled/horned_polled_extracted.vcf', sep='\t', index=False)
 
-print("数据已成功写入 3result.vcf 文件。")
+print("The data has been successfully written into horned_polled_extracted.vcf")
 
