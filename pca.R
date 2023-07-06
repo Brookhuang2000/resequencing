@@ -14,4 +14,4 @@ ggplot(pca_result, aes(x = PC1, y = PC2, color = IID)) +
   geom_hline(yintercept = 0,lty=2,col="red") + 
   geom_vline(xintercept = 0,lty=2,col="blue", lwd =1 ) +
   theme_bw() +
-  theme(legend.position = "none")
+  theme(legend.position = "none") #删除图例
