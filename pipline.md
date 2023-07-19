@@ -23,14 +23,20 @@ NR <= header_row {
 awk -f extract.awk DP3miss0.2.recode.vcf
 
 #将vcf文件转换为plink的ped和map格式 
+```shell
 plink --vcf hp_extracted.vcf --recode --out hp_e --const-fid --allow-extra-chr
+```
 
 #将ped和map转换为bed、bim、fam格式
+```shell
 plink --allow-extra-chr --file hp_e --noweb --make-bed --out hp_e  
+```
 
 #进行PCA计算
+```shell
 plink --allow-extra-chr --threads 20 -bfile hp_e --pca 20 --out hp_e
-
+```
+```R
     install.packages("FactoMineR")
     install.packages("factoextra")
     library(FactoMineR)
@@ -60,7 +66,7 @@ plink --allow-extra-chr --threads 20 -bfile hp_e --pca 20 --out hp_e
       labs(title="PCA", x="PC1", y="PC2") +
       theme(plot.title = element_text(hjust = 0.5))
     dev.off()
-
+```
 #admixture analysis
     #染色体必须是整数
      less hp_extracted.vcf | grep -v "#" |awk '{print $1}' |sort -u |awk '{print $1"\tChr"NR}' > chr_name_change.txt
