@@ -69,6 +69,7 @@ plink --allow-extra-chr --threads 20 -bfile hp_e --pca 20 --out hp_e
 ```
 #admixture analysis
     #染色体必须是整数
+    ```shell
      less hp_extracted.vcf | grep -v "#" |awk '{print $1}' |sort -u |awk '{print $1"\tChr"NR}' > chr_name_change.txt
 
                 less your.vcf|grep -v "#" |awk '{print $1}' |sort -u |awk '{print $1"\tChr"NR}' >chr_name_change.txt #生成染色体名称转化表,我的原本染色体名称类似：Chr01A,在这里只改成了Chr1
@@ -92,7 +93,8 @@ for K in 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20; do admixture --cv h
 
   
 grep -h CV log*.out
-
+        ```
+```R
 tbl=read.table("hapmap3.3.Q")
 
 pdf("/USER/XXX/Project/xj/reseq/result/11.admixture/Q7.pdf")
@@ -100,10 +102,11 @@ pdf("/USER/XXX/Project/xj/reseq/result/11.admixture/Q7.pdf")
 barplot(t(as.matrix(tbl)), col=rainbow(3),xlab="Individual #", ylab="Ancestry", border=NA) 
 
 dev.off()
-
+```
 
 
 #Use phylip software plot NJ tree
+```shell
 step1
   download tassel software
 step2 
@@ -133,6 +136,6 @@ step3
 #整理结果格式
 less infile.dist | tr '\n' '|'| sed 's/| / /g' | tr '|' '\n' >infile.dist.table
 less outtree | tr '\n' ' '|sed 's/ //g' > outtree.nwk
-
+```
 链接：https://zhuanlan.zhihu.com/p/574616718
 
