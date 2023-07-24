@@ -22,6 +22,69 @@ NR <= header_row {
 ```
 awk -f extract.awk DP3miss0.2.recode.vcf
 
+```bash
+#vcf文件中包含unknown chromosome，先把这些删掉，再进行下一步分析
+#!/bin/bash
+
+# Set the input and output file paths
+input_file="/mnt/huangchang/huangchang/04_sheep/01_horned_polled/hp_extracted.vcf"
+output_file="/mnt/huangchang/huangchang/04_sheep/01_horned_polled/chr_changed_hp.vcf"
+
+# Define the mapping array as a string with newline separators
+mapping_array=$(cat << EOM
+NC_001941.1=Chr28
+NC_040252.1=Chr1
+NC_040253.1=Chr2
+NC_040254.1=Chr3
+NC_040255.1=Chr4
+NC_040256.1=Chr5
+NC_040257.1=Chr6
+NC_040258.1=Chr7
+NC_040259.1=Chr8
+NC_040260.1=Chr9
+NC_040261.1=Chr10
+NC_040262.1=Chr11
+NC_040263.1=Chr12
+NC_040264.1=Chr13
+NC_040265.1=Chr14
+NC_040266.1=Chr15
+NC_040267.1=Chr16
+NC_040268.1=Chr17
+NC_040269.1=Chr18
+NC_040270.1=Chr19
+NC_040271.1=Chr20
+NC_040272.1=Chr21
+NC_040273.1=Chr22
+NC_040274.1=Chr23
+NC_040275.1=Chr24
+NC_040276.1=Chr25
+NC_040277.1=Chr26
+NC_040278.1=Chr27
+EOM
+)
+
+# Process the VCF file using awk and the mapping array
+awk -v mapping_array="${mapping_array}" -v OFS="\t" '
+BEGIN {
+    # Convert the mapping_array string into an awk array
+    n = split(mapping_array, mappings, "\n")
+    for (i = 1; i <= n; i++) {
+        split(mappings[i], map, "=")
+        mapping[map[1]] = map[2]
+    }
+}
+{
+    if ($1 in mapping) {
+        $1 = mapping[$1]
+        print
+    }
+}
+' "${input_file}" > "${output_file}"
+
+echo "VCF processing completed. Output file: ${output_file}"
+```
+
+
 #将vcf文件转换为plink的ped和map格式 
 ```shell
 plink --vcf hp_extracted.vcf --recode --out hp_e --const-fid --allow-extra-chr
