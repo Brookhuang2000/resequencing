@@ -152,11 +152,19 @@ plink --allow-extra-chr --threads 20 -bfile hp_e --pca 20 --out hp_e
                 ps -aux |grep admixture
                 https://blog.csdn.net/weixin_52269481/article/details/130351775
 
+```shell
 for K in 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20; do admixture --cv hp_e.bed $K | tee log${K}.out; done
 
-  
 grep -h CV log*.out
-        ```
+
+#得到最佳K值，计算群体成分
+admixture data.pruned.bed 9 -j20
+
+#绘图
+tbl=read.table("hapmap3.3.Q")
+barplot(t(as.matrix(tbl)), col=rainbow(3),xlab="Individual #", ylab="Ancestry", border=NA)
+```
+
 ```R
 tbl=read.table("hapmap3.3.Q")
 
